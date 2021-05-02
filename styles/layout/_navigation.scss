@@ -1,0 +1,39 @@
+@use '../abstracts' as *;
+@use '../base/variables' as *;
+
+.navbar {
+  @include flex-ctr;
+  background-color: $light;
+  .innerNav {
+    @include flex-bw;
+    .logo {
+      display: flex;
+      align-items: center;
+      span {
+        margin-left: 1rem;
+      }
+    }
+
+    ul {
+      display: flex;
+      gap: 1rem;
+    }
+    max-width: $laptop;
+    @include media($laptop) {
+      margin: 0 $sideMarginLaptop;
+    }
+    @include media($tablet) {
+      margin: 0 $sideMarginTablet;
+    }
+    @include media($mobile) {
+      margin: 0 $sideMarginMobile;
+    }
+    .cartLogo {
+      fill: $primary;
+      cursor: pointer;
+      &:hover {
+        fill: $dark;
+      }
+    }
+  }
+}

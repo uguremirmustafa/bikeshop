@@ -1,0 +1,82 @@
+@use '../abstracts' as *;
+.cart {
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 400px;
+  background-color: $light;
+  border-left: 1px solid $primary;
+  transition: all 0.4s ease;
+  transform: translateX(400px);
+  .titleBar {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid $primary;
+    .closeButton {
+      cursor: pointer;
+      fill: $light;
+      display: grid;
+      place-items: center;
+      margin-left: 0.5rem;
+      border-radius: 50%;
+      background-color: $primary;
+    }
+    h3 {
+      color: $primary;
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .cartItems {
+    padding: 1rem;
+    display: grid;
+    gap: 1rem;
+    .cartItem {
+      display: flex;
+      align-items: center;
+      height: 6rem;
+      justify-content: space-between;
+      // border: 1px solid red;
+      div {
+        display: flex;
+        align-items: center;
+        h3 {
+          font-size: 0.75rem;
+          font-weight: 400;
+          width: 8rem;
+        }
+        .cartItemImage {
+          height: 5rem;
+          object-fit: cover;
+          width: 5rem;
+          border-radius: 10px;
+        }
+        span {
+          font-size: 0.75rem;
+          margin: 1rem;
+          &::after {
+            content: '$';
+            padding-left: 0.2rem;
+          }
+        }
+      }
+      .trashIcon {
+        fill: $primary;
+        cursor: pointer;
+      }
+    }
+  }
+  .checkout {
+    display: flex;
+    justify-content: center;
+  }
+}
+.cartOpen {
+  transform: translateX(0);
+}
+.cartClose {
+  transform: translateX(400px);
+}
