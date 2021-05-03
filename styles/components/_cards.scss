@@ -3,13 +3,16 @@
   padding: 1rem;
   border-radius: 0.5rem;
   .cardTitle {
-    font-size: 0.9rem;
-    font-weight: 400;
+    font-size: 1.1rem;
+    font-weight: 700;
     padding-bottom: 0.5rem;
     width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    &:hover {
+      text-decoration: underline;
+    }
   }
   .flex {
     display: flex;

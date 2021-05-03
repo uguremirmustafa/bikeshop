@@ -1,0 +1,19 @@
+@use '../abstracts/' as *;
+.cart {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+  padding: 1rem 0;
+  .items {
+    // border: 1px solid red;
+    display: grid;
+    gap: 1rem;
+    .itemsHeader {
+      @include flex-bw;
+    }
+  }
+  .checkout {
+    display: grid;
+    justify-content: center;
+  }
+}

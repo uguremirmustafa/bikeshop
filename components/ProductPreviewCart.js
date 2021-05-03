@@ -18,6 +18,7 @@ export default function ProductPreviewCard({ product }) {
           <h2 className="cardTitle">{product.name}</h2>
         </a>
       </Link>
+
       <Image
         src={img}
         className="productImage"
@@ -26,6 +27,7 @@ export default function ProductPreviewCard({ product }) {
         objectFit="contain"
         alt={product.images[0].alt}
       />
+
       <div className="flex">
         <button className="btn" onClick={() => dispatch({ type: 'OPEN_CART' })}>
           &hearts;

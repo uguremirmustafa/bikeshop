@@ -9,4 +9,11 @@
   cursor: pointer;
   text-transform: capitalize;
   height: min-content;
+  min-width: 2rem;
+  &:disabled {
+    background-color: $dark;
+  }
+  &:hover {
+    background-color: $dark;
+  }
 }

@@ -3,7 +3,10 @@ import { GetProductSlugs, GetSingleProduct } from '@lib/queries/products';
 import { urlForImage } from '@lib/sanity';
 import React from 'react';
 import Image from 'next/image';
+import { useCart } from 'react-use-cart';
+import Link from 'next/link';
 export default function SingleProduct({ product }) {
+  const { addItem, inCart } = useCart();
   const img = urlForImage(product.images[0].image);
   return (
     <div className="productPage">
@@ -20,7 +23,29 @@ export default function SingleProduct({ product }) {
         <p>{product.description}</p>
         <p>price : {product.price} $</p>
         <p>frame size : {product.bikeSize?.size}</p>
-        <button className="btn">Add to Cart</button>
+        {!inCart(product._id) ? (
+          <button
+            className="btn"
+            onClick={() =>
+              addItem(
+                {
+                  id: product._id,
+                  price: product.price,
+                  name: product.name,
+                  image: img,
+                  slug: product.slug.current,
+                },
+                1
+              )
+            }
+          >
+            Add to Cart
+          </button>
+        ) : (
+          <Link href={`/cart`}>
+            <button className="btn">Already in the cart, go to cart</button>
+          </Link>
+        )}
       </div>
     </div>
   );
