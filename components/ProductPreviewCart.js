@@ -3,10 +3,14 @@ import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { urlForImage } from '@lib/sanity';
+import { useCart } from 'react-use-cart';
 
 export default function ProductPreviewCard({ product }) {
-  const img = urlForImage(product.images[0].image);
+  const { addItem } = useCart();
   const { dispatch } = useContext(ShopContext);
+
+  const img = urlForImage(product.images[0].image);
+
   return (
     <div className="productPreviewCard">
       <Link href={`/product/${product.slug.current}`}>
@@ -27,9 +31,9 @@ export default function ProductPreviewCard({ product }) {
           &hearts;
         </button>
         <span className="priceTag">{product.price}</span>
-        <button className="btn" onClick={() => setShouldFetch(true)}>
-          Add to cart
-        </button>
+        <Link href={`/product/${product.slug.current}`}>
+          <button className="btn">See the item</button>
+        </Link>
       </div>
     </div>
   );

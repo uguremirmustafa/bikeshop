@@ -1,15 +1,18 @@
+import '../styles/main.scss';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import Layout from '@components/Layout';
 import ShopProvider from '@context/shopContext';
-import '../styles/main.scss';
+import { CartProvider } from 'react-use-cart';
 
 function MyApp({ Component, pageProps }) {
   return (
     <UserProvider>
       <ShopProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <CartProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </CartProvider>
       </ShopProvider>
     </UserProvider>
   );

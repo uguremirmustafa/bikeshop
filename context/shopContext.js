@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useReducer, useState } from 'react';
 import reducers from './Reducers';
-import useSWR from 'swr';
 
 export const ShopContext = createContext();
 
