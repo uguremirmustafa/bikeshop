@@ -1,13 +1,28 @@
 import client from '@lib/client';
 import { GetProductSlugs, GetSingleProduct } from '@lib/queries/products';
 import { urlForImage } from '@lib/sanity';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useCart } from 'react-use-cart';
 import Link from 'next/link';
 export default function SingleProduct({ product }) {
   const { addItem, inCart } = useCart();
   const img = urlForImage(product.images[0].image);
+  const [qty, setQty] = useState(1);
+  const [selectValue, setSelectValue] = useState('');
+  const productVariants = product.bikeSize;
+  const [selectedVariant, setSelectedVariant] = useState(productVariants[0]._key);
+
+  const handleSelect = (e) => {
+    setSelectValue(e.target.value);
+    setSelectedVariant(e.target[e.target.selectedIndex].id);
+  };
+  const handleQty = (e) => {
+    setQty(e.target.value);
+  };
+
+  const currentItem = productVariants.filter((item) => item._key == selectedVariant)[0];
+
   return (
     <div className="productPage">
       <Image
@@ -21,21 +36,40 @@ export default function SingleProduct({ product }) {
       <div className="info">
         <h2>{product.name}</h2>
         <p>{product.description}</p>
-        <p>price : {product.price} $</p>
-        <p>frame size : {product.bikeSize?.size}</p>
-        {!inCart(product._id) ? (
+        <label htmlFor="size">Select product size:</label>
+        <select name="size" id="size" onChange={handleSelect} value={selectValue}>
+          {product.bikeSize.map((item) => (
+            <option key={item._key} value={item.size} id={item._key}>
+              {item.size}
+            </option>
+          ))}
+        </select>
+        <div>
+          <div>price: {currentItem.price}$</div>
+          <div>frame size: {currentItem.size}</div>
+        </div>
+        <label htmlFor="qty">Quantity:</label>
+        <select name="qt" id="qty" value={qty} onChange={handleQty}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        {!inCart(currentItem._key) ? (
           <button
             className="btn"
             onClick={() =>
               addItem(
                 {
-                  id: product._id,
-                  price: product.price,
+                  id: currentItem._key,
+                  price: currentItem.price,
                   name: product.name,
                   image: img,
                   slug: product.slug.current,
+                  variant: currentItem.size,
                 },
-                1
+                parseInt(qty)
               )
             }
           >

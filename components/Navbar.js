@@ -5,11 +5,11 @@ import { useUser } from '@auth0/nextjs-auth0';
 import { useCart } from 'react-use-cart';
 
 export default function Navbar() {
-  const { items } = useCart();
-  let initialValue = 0;
-  const itemCount = items
-    .map((item) => item.quantity)
-    .reduce((sum, val) => sum + val, initialValue);
+  const { totalItems } = useCart();
+  // let initialValue = 0;
+  // const itemCount = items
+  //   .map((item) => item.quantity)
+  //   .reduce((sum, val) => sum + val, initialValue);
 
   const { user, error, isLoading } = useUser();
   const routes = [
@@ -22,7 +22,7 @@ export default function Navbar() {
       path: '/cart',
       label: (
         <div className="cartLogoContainer">
-          {itemCount > 0 && <span className="cartCount">{itemCount}</span>}
+          <span className="cartCount">{totalItems}</span>
           <svg viewBox="0 0 24 24" width="20" height="20" className="cartLogo">
             <path fill="none" d="M0 0h24v24H0z" />
             <path d="M4 16V4H2V2h3a1 1 0 0 1 1 1v12h12.438l2-8H8V5h13.72a1 1 0 0 1 .97 1.243l-2.5 10a1 1 0 0 1-.97.757H5a1 1 0 0 1-1-1zm2 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm12 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" />

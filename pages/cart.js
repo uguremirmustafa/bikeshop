@@ -2,8 +2,8 @@ import CartItem from '@components/CartItem';
 import { useCart } from 'react-use-cart';
 
 export default function Cart() {
-  const { items, emptyCart, cartTotal } = useCart();
-  console.log(items);
+  const { items, emptyCart, cartTotal, totalItems } = useCart();
+  console.log(totalItems);
   return (
     <div className="cart">
       <div className="items">

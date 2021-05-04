@@ -5,12 +5,12 @@ export default function CartItem({ item }) {
   const outOfStock = item.quantity >= 5;
   const handleIncrease = () => {
     if (!outOfStock) {
-      updateItemQuantity(item.id, item.quantity + 1);
+      updateItemQuantity(item.id, parseInt(item.quantity) + 1);
     }
   };
   const handleDecrease = () => {
     if (!item.quantity <= 1) {
-      updateItemQuantity(item.id, item.quantity - 1);
+      updateItemQuantity(item.id, parseInt(item.quantity) - 1);
     }
   };
   return (
