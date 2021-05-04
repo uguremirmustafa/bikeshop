@@ -11,7 +11,7 @@ export default function SingleProduct({ product }) {
   const [qty, setQty] = useState(1);
   const [selectValue, setSelectValue] = useState('');
   const productVariants = product.bikeSize;
-  const [selectedVariant, setSelectedVariant] = useState(productVariants[0]._key);
+  const [selectedVariant, setSelectedVariant] = useState(productVariants[0]._id);
 
   const handleSelect = (e) => {
     setSelectValue(e.target.value);
@@ -21,7 +21,7 @@ export default function SingleProduct({ product }) {
     setQty(e.target.value);
   };
 
-  const currentItem = productVariants.filter((item) => item._key == selectedVariant)[0];
+  const currentItem = productVariants.filter((item) => item._id == selectedVariant)[0];
 
   return (
     <div className="productPage">
@@ -39,7 +39,7 @@ export default function SingleProduct({ product }) {
         <label htmlFor="size">Select product size:</label>
         <select name="size" id="size" onChange={handleSelect} value={selectValue}>
           {product.bikeSize.map((item) => (
-            <option key={item._key} value={item.size} id={item._key}>
+            <option key={item._id} value={item.size} id={item._id}>
               {item.size}
             </option>
           ))}
@@ -56,13 +56,13 @@ export default function SingleProduct({ product }) {
           <option value="4">4</option>
           <option value="5">5</option>
         </select>
-        {!inCart(currentItem._key) ? (
+        {!inCart(currentItem._id) ? (
           <button
             className="btn"
             onClick={() =>
               addItem(
                 {
-                  id: currentItem._key,
+                  id: currentItem._id,
                   price: currentItem.price,
                   name: product.name,
                   image: img,

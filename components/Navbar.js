@@ -1,4 +1,3 @@
-import { ShopContext } from 'context/shopContext';
 import Link from 'next/link';
 import React, { useContext } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';

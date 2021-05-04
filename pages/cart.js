@@ -3,7 +3,27 @@ import { useCart } from 'react-use-cart';
 
 export default function Cart() {
   const { items, emptyCart, cartTotal, totalItems } = useCart();
-  console.log(totalItems);
+  const PayBtn = () => {
+    const handleCheckout = async (e) => {
+      e.preventDefault();
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          cart: items,
+          cartTotal,
+        }),
+      }).then((res) => res.json());
+      alert(JSON.stringify(response, null, 2));
+    };
+    return (
+      <button className="btn" onClick={handleCheckout}>
+        checkout
+      </button>
+    );
+  };
   return (
     <div className="cart">
       <div className="items">
@@ -19,7 +39,10 @@ export default function Cart() {
       </div>
       <div className="checkout">
         <div>Cart Total: {cartTotal}$</div>
-        <button className="btn">checkout</button>
+        {/* <button className="btn" onClick={handleCheckout}>
+          checkout
+        </button> */}
+        <PayBtn />
       </div>
     </div>
   );
