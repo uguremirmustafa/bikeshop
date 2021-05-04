@@ -1,22 +1,30 @@
 import CartItem from '@components/CartItem';
 import { useCart } from 'react-use-cart';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 export default function Cart() {
   const { items, emptyCart, cartTotal, totalItems } = useCart();
   const PayBtn = () => {
     const handleCheckout = async (e) => {
       e.preventDefault();
-      const response = await fetch('/api/create-checkout-session', {
+      //we resolve stripe in the handle function in order to prevent unnecessary load
+      const stripe = await stripePromise;
+
+      const session = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           cart: items,
-          cartTotal,
         }),
       }).then((res) => res.json());
-      alert(JSON.stringify(response, null, 2));
+
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
     };
     return (
       <button className="btn" onClick={handleCheckout}>
@@ -39,9 +47,6 @@ export default function Cart() {
       </div>
       <div className="checkout">
         <div>Cart Total: {cartTotal}$</div>
-        {/* <button className="btn" onClick={handleCheckout}>
-          checkout
-        </button> */}
         <PayBtn />
       </div>
     </div>
