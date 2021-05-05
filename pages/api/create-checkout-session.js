@@ -32,8 +32,8 @@ export default async (req, res) => {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      // success_url: 'http://localhost:3000/?id={CHECKOUT_SESSION_ID}',
-      success_url: 'http://localhost:3000/cart/?success=true',
+      success_url: 'http://localhost:3000/?id={CHECKOUT_SESSION_ID}',
+      // success_url: 'http://localhost:3000/cart/?success=true',
       cancel_url: `http://localhost:3000/cart/?canceled=true`,
       mode: 'payment',
       payment_method_types: ['card'],
