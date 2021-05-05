@@ -1,11 +1,24 @@
 import CartItem from '@components/CartItem';
 import { useCart } from 'react-use-cart';
 import { loadStripe } from '@stripe/stripe-js';
+import { useEffect, useState } from 'react';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 export default function Cart() {
   const { items, emptyCart, cartTotal, totalItems } = useCart();
+  const [message, setMessage] = useState('');
+  useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+    if (query.get('success')) {
+      setMessage('Order placed! You will receive an email confirmation.');
+      emptyCart();
+    }
+    if (query.get('canceled')) {
+      setMessage("Order canceled -- continue to shop around and checkout when you're ready.");
+    }
+  }, []);
   const PayBtn = () => {
     const handleCheckout = async (e) => {
       e.preventDefault();
@@ -21,10 +34,13 @@ export default function Cart() {
           cart: items,
         }),
       }).then((res) => res.json());
-
       const result = await stripe.redirectToCheckout({
         sessionId: session.id,
       });
+
+      if (result.error) {
+        setMessage(result.error.message);
+      }
     };
     return (
       <button className="btn" onClick={handleCheckout}>
@@ -32,6 +48,12 @@ export default function Cart() {
       </button>
     );
   };
+
+  const Message = ({ message }) => (
+    <section>
+      <p>{message}</p>
+    </section>
+  );
   return (
     <div className="cart">
       <div className="items">
@@ -49,6 +71,7 @@ export default function Cart() {
         <div>Cart Total: {cartTotal}$</div>
         <PayBtn />
       </div>
+      {message ? <Message message={message} /> : ''}
     </div>
   );
 }

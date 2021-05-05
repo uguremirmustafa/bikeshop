@@ -32,13 +32,14 @@ export default async (req, res) => {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      success_url: 'http://localhost:3000/?id={CHECKOUT_SESSION_ID}',
-      cancel_url: `http://localhost:3000/cart`,
+      // success_url: 'http://localhost:3000/?id={CHECKOUT_SESSION_ID}',
+      success_url: 'http://localhost:3000/cart/?success=true',
+      cancel_url: `http://localhost:3000/cart/?canceled=true`,
       mode: 'payment',
       payment_method_types: ['card'],
       line_items: cartFromServer.map((item) => ({
         price_data: {
-          unit_amount: item.price,
+          unit_amount: item.price * 100,
           currency: 'USD',
           product_data: {
             name: item.name,
@@ -46,6 +47,10 @@ export default async (req, res) => {
         },
         quantity: item.quantity,
       })),
+      shipping_rates: ['shr_1IneOpGBNca2ekHmNNQhzZPX'],
+      shipping_address_collection: {
+        allowed_countries: ['US', 'CA', 'TR'],
+      },
     });
     res.status(200).json(session);
     return;

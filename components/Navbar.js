@@ -5,16 +5,12 @@ import { useCart } from 'react-use-cart';
 
 export default function Navbar() {
   const { totalItems } = useCart();
-  // let initialValue = 0;
-  // const itemCount = items
-  //   .map((item) => item.quantity)
-  //   .reduce((sum, val) => sum + val, initialValue);
 
   const { user, error, isLoading } = useUser();
   const routes = [
     {
       path: !user ? '/api/auth/login' : '/api/auth/logout',
-      label: !user ? 'Login' : `${user?.name} Logout`,
+      label: !user ? 'Login' : `${user.name} Logout`,
       featured: false,
     },
     {
