@@ -87,7 +87,6 @@ export default function SingleProduct({ product }) {
 }
 
 export async function getStaticProps({ params }) {
-  const { accessToken } = await getAccessToken(req, res);
   const { allProduct } = await client.request(GetSingleProduct, {
     slug: params.slug,
   });
