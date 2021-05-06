@@ -29,12 +29,16 @@ export default async (req, res) => {
       price: currentP.price,
     };
   });
-
+  const onProd = process.env.NODE_ENV === 'production';
   try {
     const session = await stripe.checkout.sessions.create({
       // success_url: 'http://localhost:3000/?id={CHECKOUT_SESSION_ID}',
-      success_url: 'http://localhost:3000/cart/?success=true',
-      cancel_url: `http://localhost:3000/cart/?canceled=true`,
+      success_url: onProd
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/cart/?success=true`
+        : `${process.env.NEXT_PUBLIC_DEVELOPMENT_URL}/cart/?success=true`,
+      cancel_url: onProd
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/cart/?canceled=true`
+        : `${process.env.NEXT_PUBLIC_DEVELOPMENT_URL}/cart/?canceled=true`,
       mode: 'payment',
       payment_method_types: ['card'],
       line_items: cartFromServer.map((item) => ({
