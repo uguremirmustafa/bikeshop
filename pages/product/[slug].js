@@ -93,7 +93,6 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       product: allProduct[0],
-      accessToken,
     },
   };
 }
