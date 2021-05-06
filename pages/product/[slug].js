@@ -103,6 +103,6 @@ export async function getStaticPaths() {
   const { allProduct: paths } = await client.request(GetProductSlugs);
   return {
     paths: paths.map((item) => ({ params: { slug: item.slug.current } })),
-    fallback: true,
+    fallback: false,
   };
 }
