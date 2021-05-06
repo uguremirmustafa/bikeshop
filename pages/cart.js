@@ -2,6 +2,7 @@ import CartItem from '@components/CartItem';
 import { useCart } from 'react-use-cart';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
@@ -70,6 +71,7 @@ export default function Cart() {
       <div className="checkout">
         <div>Cart Total: {cartTotal}$</div>
         <PayBtn />
+        {/* <Link href="/checkout">checkoutpage</Link> */}
       </div>
       {message ? <Message message={message} /> : ''}
     </div>

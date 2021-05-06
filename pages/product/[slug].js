@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useCart } from 'react-use-cart';
 import Link from 'next/link';
+import { getAccessToken } from '@auth0/nextjs-auth0';
 export default function SingleProduct({ product }) {
   const { addItem, inCart } = useCart();
   const img = urlForImage(product.images[0].image);
@@ -86,12 +87,14 @@ export default function SingleProduct({ product }) {
 }
 
 export async function getStaticProps({ params }) {
+  const { accessToken } = await getAccessToken(req, res);
   const { allProduct } = await client.request(GetSingleProduct, {
     slug: params.slug,
   });
   return {
     props: {
       product: allProduct[0],
+      accessToken,
     },
   };
 }

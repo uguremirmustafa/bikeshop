@@ -7,10 +7,18 @@ export default function Navbar() {
   const { totalItems } = useCart();
 
   const { user, error, isLoading } = useUser();
+
   const routes = [
     {
       path: !user ? '/api/auth/login' : '/api/auth/logout',
-      label: !user ? 'Login' : `${user.name} Logout`,
+      label: !user ? (
+        'Login'
+      ) : (
+        <div className="avatarContainer">
+          <div>Logout {user.name}</div>
+          <img src={user.picture} alt={`avatar image of ${user.name}`} className="avatar" />
+        </div>
+      ),
       featured: false,
     },
     {
